@@ -8,17 +8,18 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.Scanner;
 
 public class EvolutionaryAlgorithm {
 
 	public static void main(String[] args) {
-		
+
+		Scanner input = new Scanner(System.in);
+
 		GeneticBound gene = new GeneticBound();
 		//the random values creating the first string
 		Random rand = gene.rand;
-		//the target string
-		String target = gene.getTarget();
-		
+
 		//the number of generations after which log is updated
 		final int GENERATION_STEP = 100;
 		//the current generation
@@ -26,17 +27,22 @@ public class EvolutionaryAlgorithm {
 		//the population of chromosomes
 		ArrayList<Chromosome> population = gene.getPopulation();
 
+		//Target string to convert random string into
+		System.out.print("Enter the target word: " );
+		String target = input.nextLine();
+		gene.setTarget(target);
+
 		//creating the list of random chromosomes comprising the population
 		for (int i = 0; i < gene.DEFAULT_SIZE; i++) {
 			String data = gene.randomString(target.length());
 			gene.getPopulation().add(new Chromosome(data,
-												gene.fitness(target, data)));
+					gene.fitness(target, data)));
 		}
 
 		//keep converting until the random string is the same as target string
 		while (population.get(0).getFitness() != 0) {
 			gene.getLog().add("Generation " + generation + ": " 
-												+ gene.getPopulation().get(0));
+					+ gene.getPopulation().get(0));
 			//update the log after certain number of generations
 			if (generation % GENERATION_STEP == 0)
 				System.out.println("Generation " + generation + ": fittest  = "
@@ -63,6 +69,7 @@ public class EvolutionaryAlgorithm {
 				return;
 			}
 		}
+		input.close();	
 	}
 
 }
