@@ -13,10 +13,11 @@ public class GeneticBound {
 	//creating a random set of numbers to create the random string
 	public Random rand = new Random();
 
-	//the list of all valid characters in the random string
-	protected static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz !.,?";
+	//the list of all valid characters in the both string
+	protected static String validCharacters = 
+				"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz !.',\"?";
 	//the string to be converted to
-	private static String target = "Hello, world!";
+	private static String target;
 
 	//the default increments of generations
 	public static final int DEFAULT_SIZE = 100;
@@ -42,6 +43,10 @@ public class GeneticBound {
 		return target;
 	}
 
+	public void setTarget(String target) {
+		this.target = target;
+	}
+	
 	/**
 	 * The accessor of population
 	 * @return population
@@ -55,7 +60,7 @@ public class GeneticBound {
 	 * @param arr the new list of chromosomes for the population
 	 */
 	public void setPopulation(ArrayList<Chromosome> arr) {
-		population = arr;
+		this.population = arr;
 	}
 
 	/**
@@ -63,7 +68,7 @@ public class GeneticBound {
 	 * @param arr the new list of chromosomes for the next generation
 	 */
 	public void setGeneration(ArrayList<Chromosome> arr) {
-		newGeneration = arr;
+		this.newGeneration = arr;
 	}
 
 	/**
@@ -120,14 +125,15 @@ public class GeneticBound {
 	}
 
 	/**
-	 * Creates the random string using the legal alphabets
+	 * Creates the random string using the legal validCharacterss
 	 * @param length the length of the random string
 	 * @return the random string
 	 */
 	public String randomString(int length) {
 		StringBuilder word = new StringBuilder();
 		for (int i = 0; i < length; i++) {
-			word.append(alphabet.charAt(rand.nextInt(alphabet.length())));
+			word.append(validCharacters.charAt
+					(rand.nextInt(validCharacters.length())));
 		}
 		return word.toString();
 	}
@@ -140,34 +146,15 @@ public class GeneticBound {
 	 * @return fitness
 	 */
 	public int fitness(String s1, String s2) {
-		int type = 1;
-
-		if (type == 0) {
-			if (s1.length() != s2.length()) {
-				return -1;
-			}
-
-			int fitness = 0;
-			for (int i = 0; i < s1.length(); i++) {
-				if (s1.charAt(i) != s2.charAt(i))
-					fitness++;
-			}
-			return fitness;
-		} else if (type == 1) {
-			if (s1.length() != s2.length()) {
-				return -1;
-			}
-
-			int fitness = 0;
-			for (int i = 0; i < s1.length(); i++) {
-				fitness += Math.abs(alphabet.indexOf(s1.charAt(i))
-						- alphabet.indexOf(s2.charAt(i)));
-			}
-			return fitness;
-		} else {
+		if (s1.length() != s2.length()) {
 			return -1;
 		}
-
+		int fitness = 0;
+		for (int i = 0; i < s1.length(); i++) {
+			fitness += Math.abs(validCharacters.indexOf(s1.charAt(i))
+					- validCharacters.indexOf(s2.charAt(i)));
+		}
+		return fitness;
 	}
 
 }
