@@ -7,7 +7,7 @@
 
 import java.util.Random;
 
-class Chromosome  extends GeneticBound implements Comparable<Chromosome> {
+class Chromosome extends GeneticBound implements Comparable<Chromosome> {
 	
 	//the list of characters between random and target strings
 	private char[] data;
@@ -50,8 +50,8 @@ class Chromosome  extends GeneticBound implements Comparable<Chromosome> {
 		if (Chromosome.rand.nextDouble() < MUTATION_RATE) {
 			int index = Chromosome.rand.nextInt(this.data.length);
 			int replacementIndex = Chromosome.rand
-					.nextInt(alphabet.length());
-			this.data[index] = alphabet.charAt(replacementIndex);
+					.nextInt(validCharacters.length());
+			this.data[index] = validCharacters.charAt(replacementIndex);
 		}
 	}
 
@@ -122,4 +122,5 @@ class Chromosome  extends GeneticBound implements Comparable<Chromosome> {
 	public String toString() {
 		return (new String(data)) + " (Fitness: " + fitness + ")";
 	}
+	
 }
